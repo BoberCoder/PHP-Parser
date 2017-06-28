@@ -2,8 +2,17 @@
 
 namespace Parser;
 
+use Parser\Parser;
+
 class Terminal
 {
+    private $parser;
+
+    public function __construct()
+    {
+        $this->parser = new Parser();
+    }
+
     /**
      * Command input and division in array
      */
@@ -23,7 +32,7 @@ class Terminal
     {
         if ($command[0] == "parse")
         {
-            echo "parse \n";
+            $this->parser->parse($command[1]);
             $this->input();
         }
         elseif ($command[0] == "report")
