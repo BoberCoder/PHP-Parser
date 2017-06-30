@@ -45,8 +45,27 @@ class Terminal
         }
         elseif ($command[0] == "report")
         {
-            echo "report \n";
-            $this->input();
+            $file_path = 'files'.substr($command[1],strpos($command[1],'//')+1).'.csv';
+
+            if (file_exists($file_path))
+            {
+                $row = 1;
+
+                $file = fopen($file_path, "r");
+                if ($file)
+                {
+                    while (($data = fgetcsv($file, 1000, "|")) !== FALSE) {
+                        $num = count($data);
+                        $row++;
+                        for ($c=0; $c < $num; $c++) {
+                            echo $data[$c] . "\n";
+                        }
+                    }
+                }
+                fclose($file);
+                $this->input();
+            }
+
         }
         elseif ($command[0] == "help")
         {
