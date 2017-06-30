@@ -2,7 +2,6 @@
 
 namespace Parser;
 
-use Parser\Parser;
 
 class Terminal
 {
@@ -32,7 +31,16 @@ class Terminal
     {
         if ($command[0] == "parse")
         {
-            $this->parser->parse($command[1]);
+            $content = $this->parser->getContent($command[1]);
+            $images = $this->parser->getImages($command[1],$content);
+            $links = $this->parser->getLinks($content);
+            $fp = fopen('files/'.substr($command[1],strpos($command[1],'//')+1).'.csv','w');
+            foreach ($images as $fields)
+            {
+                fputcsv($fp, $fields);
+            }
+            fclose($fp);
+
             $this->input();
         }
         elseif ($command[0] == "report")
